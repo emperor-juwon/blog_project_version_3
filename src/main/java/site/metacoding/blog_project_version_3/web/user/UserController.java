@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -44,5 +46,11 @@ public class UserController {
         userService.회원가입(joinReqDto.toEntity());
 
         return "redirect:/login-form";
+    }
+
+    @GetMapping("/api/user/username-same-check")
+    public ResponseEntity<?> usernameSameCheck(String username) {
+        boolean isNotSame = userService.유저네임중복체크(username);
+        return new ResponseEntity<>(isNotSame, HttpStatus.OK);
     }
 }
