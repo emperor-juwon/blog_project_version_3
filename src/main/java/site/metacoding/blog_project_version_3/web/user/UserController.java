@@ -20,7 +20,7 @@ import site.metacoding.blog_project_version_3.web.dto.user.JoinReqDto;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/login-form")
     public String loginForm() {
