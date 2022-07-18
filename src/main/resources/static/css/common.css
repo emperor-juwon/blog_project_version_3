@@ -4,7 +4,7 @@
     padding: 30px;
     background-color: white;
     color: black;
-    border-bottom: 1px solid rgb(25,25,25);
+    border-bottom: 1px solid rgb(185, 185, 185);
 }
 
 .my_error_box {
@@ -34,6 +34,13 @@
     border-radius: 15px;
 }
 
+.my_profile_rounded_img_btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
 .my_hidden {
     display: none;
 } 
@@ -50,4 +57,28 @@
     background-color: rgb(185, 185, 185);
     color: white;
     margin: 5px 0;
+} 
+
+.my_fakeimg {
+    height: 200px;
+    background-color: rgb(185, 185, 185);
+}
+
+.my_success_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(30, 180, 159);
+    color: white;
+    margin: 5px 0;
+}
+
+.my_elipse {
+    overflow: hidden;
+    text-overflow: ellipsis;
 } 

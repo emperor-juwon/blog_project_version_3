@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import site.metacoding.blog_project_version_3.handler.LoginSuccessHandler;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,6 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login-form")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/");
+                .successHandler(new LoginSuccessHandler());
     }
 }
