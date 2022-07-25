@@ -11,5 +11,4 @@ public class BlogProjectVersion3Application {
 	public static void main(String[] args) {
 		SpringApplication.run(BlogProjectVersion3Application.class, args);
 	}
-
 }

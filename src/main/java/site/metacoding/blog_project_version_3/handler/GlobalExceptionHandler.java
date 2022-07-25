@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import site.metacoding.blog_project_version_3.handler.ex.CustomApiException;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
+import site.metacoding.blog_project_version_3.util.Script;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,12 +19,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public String htmlException(Exception e) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<script>");
-        sb.append("alert('" + e.getMessage() + "');");
-        sb.append("history.back();");
-        sb.append("</script>");
-        return sb.toString();
+
+        return Script.back(e.getMessage());
     }
 
 }
