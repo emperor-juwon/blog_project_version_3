@@ -58,4 +58,9 @@ public class PostController {
         model.addAttribute("categorys", categorys);
         return "/post/writeForm";
     }
+
+    @GetMapping("/user/{userId}/post/{postId}")
+    public String detail(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+        return "/post/detail";
+    }
 }
