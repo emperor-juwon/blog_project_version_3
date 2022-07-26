@@ -22,3 +22,6 @@ spring:
       ddl-auto: none # 조심하자!! 젭알 ㅠ
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+file:
+  path: /home/ubuntu/upload
