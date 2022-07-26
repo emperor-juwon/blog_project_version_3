@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blog_project_version_3.domain.category.Category;
@@ -28,12 +29,23 @@ public class PostService {
     @Value("${file.path}")
     private String uploadFolder;
 
-    public PostRespDto 게시글목록보기(int userId) {
-        List<Post> postsEntity = postRepository.findByUserId(userId);
+    public PostRespDto 게시글목록보기(Integer userId, org.springframework.data.domain.Pageable pageable) {
+
+        Page<Post> postsEntity = postRepository.findByUserId(userId, pageable);
         List<Category> categorysEntity = categoryRepository.findByUserId(userId);
 
         PostRespDto postRespDto = new PostRespDto(postsEntity, categorysEntity);
         return postRespDto;
+    }
+
+    public PostRespDto 게시글카테고리별보기(Integer userId, Integer categoryId,
+            org.springframework.data.domain.Pageable pageable) {
+        Page<Post> postsEntity = postRepository.findByUserIdAndCategoryId(userId, categoryId, pageable);
+        List<Category> categorysEntity = categoryRepository.findByUserId(userId);
+
+        PostRespDto postRespDto = new PostRespDto(postsEntity, categorysEntity);
+        return postRespDto;
+
     }
 
     public List<Category> 게시글쓰기화면(User principal) {

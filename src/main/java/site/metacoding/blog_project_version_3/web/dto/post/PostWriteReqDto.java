@@ -25,7 +25,6 @@ public class PostWriteReqDto {
     @NotBlank
     private String title;
 
-    @NotNull
     private MultipartFile thumnailFile;
 
     @NotNull

@@ -1,6 +1,7 @@
 package site.metacoding.blog_project_version_3.domain.post;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = true, length = 200)
     private String thumnail;
 
     @JoinColumn(name = "userId")
@@ -55,5 +56,10 @@ public class Post {
     private LocalDateTime createDate;
     @LastModifiedDate // update 할때만 동작
     private LocalDateTime updateDate;
+
+    public String getFormatCreateDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return createDate.format(formatter);
+    }
 
 }
