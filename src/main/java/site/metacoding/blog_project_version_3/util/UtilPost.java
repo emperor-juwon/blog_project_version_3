@@ -5,6 +5,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class UtilPost {
 
     public static String getContentWithoutImg(String content) {
@@ -16,4 +19,5 @@ public class UtilPost {
         }
         return doc.select("body").text();
     }
+
 }

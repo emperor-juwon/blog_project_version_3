@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.samskivert.mustache.Mustache.Visitor;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.metacoding.blog_project_version_3.domain.category.Category;
@@ -25,6 +23,7 @@ import site.metacoding.blog_project_version_3.domain.visit.VisitRepository;
 import site.metacoding.blog_project_version_3.handler.ex.CustomApiException;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.util.UtilFileUpload;
+import site.metacoding.blog_project_version_3.util.UtilPost;
 import site.metacoding.blog_project_version_3.web.dto.post.PostDetailRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostWriteReqDto;
@@ -37,7 +36,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final VisitRepository visitRepository;
-    private final UserRepository userRepository;
 
     @Value("${file.path}")
     private String uploadFolder;
@@ -53,29 +51,12 @@ public class PostService {
             pageNumbers.add(i);
         }
 
+        Visit visitEntity = visitIncrease(pageOwnerId);
+
         PostRespDto postRespDto = new PostRespDto(postsEntity, categorysEntity, pageOwnerId,
                 postsEntity.getNumber() - 1,
-                postsEntity.getNumber() + 1, pageNumbers, 0L);
+                postsEntity.getNumber() + 1, pageNumbers, visitEntity.getTotalCount());
 
-        Optional<User> pageOwnerOp = userRepository.findById(pageOwnerId);
-
-        if (pageOwnerOp.isPresent()) {
-            User pageOwnerEntity = pageOwnerOp.get();
-            Optional<Visit> visitOp = visitRepository.findById(pageOwnerEntity.getId());
-            if (visitOp.isPresent()) {
-                Visit visitsEntity = visitOp.get();
-
-                // DTO에 방문자 수 담기
-                postRespDto.setTotalCount(visitsEntity.getTotalCount());
-                Long totalCount = visitsEntity.getTotalCount();
-                visitsEntity.setTotalCount(totalCount + 1);
-            } else {
-                log.error("심각!!!", "회원가입 시 visit이 안만들어지는 심각한 오류 발생");
-                throw new CustomException("일시적 문제가 생겼습니다. 관리자에게 문의바랍니다.");
-            }
-        } else {
-            throw new CustomException("해당 블로그는 없는 페이지입니다.");
-        }
         return postRespDto;
     }
 
@@ -87,28 +68,12 @@ public class PostService {
         for (int i = 0; i < postsEntity.getTotalPages(); i++) {
             pageNumbers.add(i);
         }
+
+        Visit visitEntity = visitIncrease(pageOwnerId);
+
         PostRespDto postRespDto = new PostRespDto(postsEntity, categorysEntity, pageOwnerId,
                 postsEntity.getNumber() - 1,
-                postsEntity.getNumber() + 1, pageNumbers, 0L);
-
-        Optional<User> pageOwnerOp = userRepository.findById(pageOwnerId);
-
-        if (pageOwnerOp.isPresent()) {
-            User pageOwnerEntity = pageOwnerOp.get();
-            Optional<Visit> visitOp = visitRepository.findById(pageOwnerEntity.getId());
-            if (visitOp.isPresent()) {
-                Visit visitEntity = visitOp.get();
-                postRespDto.setTotalCount(visitEntity.getTotalCount());
-
-                Long totalCount = visitEntity.getTotalCount();
-                visitEntity.setTotalCount(totalCount + 1);
-            } else {
-                log.error("미친 심각!!", "회원가입 시 visit이 안 만들어지는 심각한 오류 발생");
-                throw new CustomException("일시적 문제가 생겼습니다. 관리자에게 문의해주세요");
-            }
-        } else {
-            throw new CustomException("해당 블로그는 없는 페이지 입니다");
-        }
+                postsEntity.getNumber() + 1, pageNumbers, visitEntity.getTotalCount());
         return postRespDto;
 
     }
@@ -139,42 +104,26 @@ public class PostService {
     public PostDetailRespDto 게시글상세보기(Integer id) {
         PostDetailRespDto postDetailRespDto = new PostDetailRespDto();
 
-        Optional<Post> postOp = postRepository.findById(id);
-        if (postOp.isPresent()) {
-            Post postEntity = postOp.get();
-            postDetailRespDto.setPost(postEntity);
-            postDetailRespDto.setPageOwner(false);
+        Post postEntity = basicFindById(id);
 
-            // 방문자 카운트 증가
-            Optional<Visit> visitOp = visitRepository.findById(postEntity.getUser().getId());
-            if (visitOp.isPresent()) {
-                Visit visitEntity = visitOp.get();
-                Long totalCount = visitEntity.getTotalCount();
-                visitEntity.setTotalCount(totalCount + 1);
-            } else {
-                log.error("심각!!!", "회원가입 시 visit이 안 만들어지는 오류 발생");
-                throw new CustomException("일시적 문제가 생겼습니다. 관리자에게 문의 바랍니다.");
-            }
-            return postDetailRespDto;
-        } else {
-            throw new CustomException("해당 게시글을 찾을 수 없습니다");
-        }
+        visitIncrease(postEntity.getUser().getId());
+
+        postDetailRespDto.setPost(postEntity);
+        postDetailRespDto.setPageOwner(false);
+
+        return postDetailRespDto;
+
     }
 
     @Transactional
     public void 게시글삭제(Integer id, User principal) {
-        Optional<Post> postOp = postRepository.findById(id);
 
-        if (postOp.isPresent()) {
-            Post postEntity = postOp.get();
+        Post postEntity = basicFindById(id);
 
-            if (principal.getId() == postEntity.getUser().getId()) {
-                postRepository.deleteById(id);
-            } else {
-                throw new CustomApiException("삭제 권한이 없습니다");
-            }
+        if (authCheck(postEntity.getUser().getId(), principal.getId())) {
+            postRepository.deleteById(id);
         } else {
-            throw new CustomApiException("해당 게시글이 존재하지 않습니다");
+            throw new CustomApiException("삭제 권한이 없습니다");
         }
     }
 
@@ -182,38 +131,48 @@ public class PostService {
     public PostDetailRespDto 게시글상세보기(Integer id, User principal) {
         PostDetailRespDto postDetailRespDto = new PostDetailRespDto();
 
-        Integer postId = id;
-        Integer pageOwnerId = null;
-        Integer loginUserId = principal.getId();
+        Post postEntity = basicFindById(id);
 
-        Optional<Post> postOp = postRepository.findById(id);
+        boolean isAuth = authCheck(postEntity.getUser().getId(), principal.getId());
 
+        visitIncrease(postEntity.getUser().getId());
+
+        postDetailRespDto.setPost(postEntity);
+        postDetailRespDto.setPageOwner(isAuth);
+
+        return postDetailRespDto;
+    }
+
+    private Post basicFindById(Integer postId) {
+        Optional<Post> postOp = postRepository.findById(postId);
         if (postOp.isPresent()) {
             Post postEntity = postOp.get();
-            postDetailRespDto.setPost(postEntity);
-
-            pageOwnerId = postEntity.getUser().getId();
-
-            // 두 값을 비교해서 동일하면 isPageOwner에 true를 추가해준다.
-            if (pageOwnerId == loginUserId) {
-                postDetailRespDto.setPageOwner(true);
-            } else {
-                postDetailRespDto.setPageOwner(false);
-            }
-
-            // 방문자 카운터 증가
-            Optional<Visit> visitOp = visitRepository.findById(postEntity.getUser().getId());
-            if (visitOp.isPresent()) {
-                Visit visitEntity = visitOp.get();
-                Long totalCount = visitEntity.getTotalCount();
-                visitEntity.setTotalCount(totalCount + 1);
-            } else {
-                log.error("미친 심각", "회원가입할때 Visit이 안 만들어지는 심각한 오류가 있습니다.");
-                throw new CustomException("일시적 문제가 생겼습니다. 관리자에게 문의해주세요.");
-            }
-            return postDetailRespDto;
+            return postEntity;
         } else {
-            throw new CustomException("해당 게시글을 찾을 수 없습니다");
+            throw new CustomApiException("해당 게시글이 존재하지 않습니다");
+        }
+    }
+
+    private boolean authCheck(Integer principalId, Integer pageOwnerId) {
+        boolean isAuth = false;
+        if (principalId == pageOwnerId) {
+            isAuth = true;
+        } else {
+            isAuth = false;
+        }
+        return isAuth;
+    }
+
+    private Visit visitIncrease(Integer pageOwnerId) {
+        Optional<Visit> visitOp = visitRepository.findById(pageOwnerId);
+        if (visitOp.isPresent()) {
+            Visit visitEntity = visitOp.get();
+            Long totalCount = visitEntity.getTotalCount();
+            visitEntity.setTotalCount(totalCount + 1);
+            return visitEntity;
+        } else {
+            log.error("심각!!", "회원가입 시 visit이 안 만들어지는 심각한 오류가 생겼습니다");
+            throw new CustomException("일시적 문제 생김, 관리자에게 문의바람");
         }
     }
 }
