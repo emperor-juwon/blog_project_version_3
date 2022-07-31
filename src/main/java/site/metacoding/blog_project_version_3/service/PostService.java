@@ -22,6 +22,7 @@ import site.metacoding.blog_project_version_3.domain.user.User;
 import site.metacoding.blog_project_version_3.domain.user.UserRepository;
 import site.metacoding.blog_project_version_3.domain.visit.Visit;
 import site.metacoding.blog_project_version_3.domain.visit.VisitRepository;
+import site.metacoding.blog_project_version_3.handler.ex.CustomApiException;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.util.UtilFileUpload;
 import site.metacoding.blog_project_version_3.web.dto.post.PostRespDto;
@@ -151,6 +152,23 @@ public class PostService {
             return postEntity;
         } else {
             throw new CustomException("해당 게시글을 찾을 수 없습니다");
+        }
+    }
+
+    @Transactional
+    public void 게시글삭제(Integer id, User principal) {
+        Optional<Post> postOp = postRepository.findById(id);
+
+        if (postOp.isPresent()) {
+            Post postEntity = postOp.get();
+
+            if (principal.getId() == postEntity.getUser().getId()) {
+                postRepository.deleteById(id);
+            } else {
+                throw new CustomApiException("삭제 권한이 없습니다");
+            }
+        } else {
+            throw new CustomApiException("해당 게시글이 존재하지 않습니다");
         }
     }
 }
