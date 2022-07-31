@@ -1,0 +1,19 @@
+package site.metacoding.blog_project_version_3.util;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class UtilPost {
+
+    public static String getContentWithoutImg(String content) {
+        Document doc = Jsoup.parse(content);
+
+        Elements els = doc.select("img");
+        for (Element el : els) {
+            el.remove();
+        }
+        return doc.select("body").text();
+    }
+}

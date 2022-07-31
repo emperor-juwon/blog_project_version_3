@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import site.metacoding.blog_project_version_3.domain.category.Category;
 import site.metacoding.blog_project_version_3.domain.user.User;
+import site.metacoding.blog_project_version_3.util.UtilPost;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,6 +61,10 @@ public class Post {
     public String getFormatCreateDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return createDate.format(formatter);
+    }
+
+    public String getFormatContent() {
+        return UtilPost.getContentWithoutImg(content);
     }
 
 }
