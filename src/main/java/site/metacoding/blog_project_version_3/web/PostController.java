@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blog_project_version_3.config.auth.LoginUser;
 import site.metacoding.blog_project_version_3.domain.category.Category;
-import site.metacoding.blog_project_version_3.domain.post.PostRepository;
+import site.metacoding.blog_project_version_3.domain.post.Post;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.service.PostService;
 import site.metacoding.blog_project_version_3.web.dto.post.PostRespDto;
@@ -59,8 +59,12 @@ public class PostController {
         return "/post/writeForm";
     }
 
-    @GetMapping("/user/{userId}/post/{postId}")
-    public String detail(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+    @GetMapping("/post/{id}")
+    public String detail(@PathVariable Integer id, Model model, @AuthenticationPrincipal LoginUser loginUser) {
+        Post postEntity = postService.게시글상세보기(id);
+        model.addAttribute("post", postEntity);
+
         return "/post/detail";
     }
+
 }
