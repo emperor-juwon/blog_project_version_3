@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blog_project_version_3.domain.user.User;
 import site.metacoding.blog_project_version_3.domain.user.UserRepository;
+import site.metacoding.blog_project_version_3.domain.visit.Visit;
+import site.metacoding.blog_project_version_3.domain.visit.VisitRepository;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.util.email.EmailUtil;
 import site.metacoding.blog_project_version_3.web.dto.user.PasswordResetReqDto;
@@ -19,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailUtil emailUtil;
+    private final VisitRepository visitRepository;
 
     @Transactional
     public void 회원가입(User user) {
@@ -26,7 +29,12 @@ public class UserService {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
 
-        userRepository.save(user);
+        User userEntity = userRepository.save(user);
+
+        Visit visit = new Visit();
+        visit.setTotalCount(0L);
+        visit.setUser(userEntity);
+        visitRepository.save(visit);
     }
 
     public boolean 유저네임중복체크(String username) {
