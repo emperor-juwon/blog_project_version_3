@@ -11,4 +11,5 @@ import site.metacoding.blog_project_version_3.domain.post.Post;
 public class PostDetailRespDto {
     private Post post;
     private boolean isPageOwner;
+    private boolean isLove;
 }
