@@ -14,6 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,9 @@ public class User {
 
     @Column(length = 60, nullable = false)
     private String email;
+
+    @Column(nullable = true)
+    private String profileImg;
 
     @CreatedDate // insert 할때만 동작
     private LocalDateTime createDate;

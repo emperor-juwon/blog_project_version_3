@@ -17,13 +17,11 @@ import site.metacoding.blog_project_version_3.domain.category.CategoryRepository
 import site.metacoding.blog_project_version_3.domain.post.Post;
 import site.metacoding.blog_project_version_3.domain.post.PostRepository;
 import site.metacoding.blog_project_version_3.domain.user.User;
-import site.metacoding.blog_project_version_3.domain.user.UserRepository;
 import site.metacoding.blog_project_version_3.domain.visit.Visit;
 import site.metacoding.blog_project_version_3.domain.visit.VisitRepository;
 import site.metacoding.blog_project_version_3.handler.ex.CustomApiException;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.util.UtilFileUpload;
-import site.metacoding.blog_project_version_3.util.UtilPost;
 import site.metacoding.blog_project_version_3.web.dto.post.PostDetailRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostWriteReqDto;

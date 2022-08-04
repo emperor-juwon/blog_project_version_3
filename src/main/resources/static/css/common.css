@@ -165,3 +165,10 @@
     margin-bottom: 100px;
     border-top: 1px solid rgb(185, 185, 185);
 }
+
+.my_profile_rounded_img_btn_lg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    cursor: pointer;
+}

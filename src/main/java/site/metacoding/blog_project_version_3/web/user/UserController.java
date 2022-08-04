@@ -1,30 +1,35 @@
 package site.metacoding.blog_project_version_3.web.user;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.naming.Binding;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.blog_project_version_3.config.auth.LoginUser;
+import site.metacoding.blog_project_version_3.domain.user.User;
+import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.service.UserService;
 import site.metacoding.blog_project_version_3.util.UtilValid;
 import site.metacoding.blog_project_version_3.web.dto.user.JoinReqDto;
 import site.metacoding.blog_project_version_3.web.dto.user.PasswordResetReqDto;
+import site.metacoding.blog_project_version_3.web.dto.user.UpdateDto;
 
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final HttpSession session;
 
     @GetMapping("/login-form")
     public String loginForm() {
@@ -66,5 +71,23 @@ public class UserController {
     @GetMapping("/s/user/{id}")
     public String updateForm(@PathVariable Integer id) {
         return "/user/updateForm";
+    }
+
+    @PutMapping("/s/api/user/{id}/profile-img")
+    public ResponseEntity<?> profileImgUpdate(@AuthenticationPrincipal LoginUser loginUser,
+            MultipartFile profileImgFile) {
+        userService.프로파일이미지변경(loginUser.getUser(), profileImgFile, session);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/s/api/user/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, UpdateDto updateDto) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal.getId() != id) {
+            throw new CustomException("권한이 없습니다!");
+        }
+        User userEntity = userService.회원정보수정(id, updateDto);
+        session.setAttribute("principal", userEntity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

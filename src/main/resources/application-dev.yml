@@ -48,4 +48,4 @@ spring:
       enabled: always
 
 file:
-  path: C:/Users/green/upload/
+  path: C:/Users/hwang/upload/
