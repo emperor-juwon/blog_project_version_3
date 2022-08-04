@@ -12,4 +12,5 @@ public class PostDetailRespDto {
     private Post post;
     private boolean isPageOwner;
     private boolean isLove;
+    private Integer loveId;
 }

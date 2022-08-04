@@ -4,7 +4,10 @@
 
     <input type="hidden" id="postId" value="{{data.post.id}}">
    <input type="hidden" id="pageOwnerId" value="{{data.post.user.id}}">
-    <div class="my_post_detail_title"></div>
+   <input id="my-loveId" type="hidden" value="{{#data.loveId}} {{data.loveId}} {{/data.loveId}}">
+
+   
+   <div class="my_post_detail_title"></div>
     <h2>{{data.post.title}}</h2>
     <hr />
 
@@ -14,13 +17,22 @@
 
     <div class="my_post_info_box d-flex">
         <div class="my_post_info">
-            <i class="fa-solid fa-heart my_fake_like my_mr_sm_1" id="heart-{{data.post.id}}"
+            {{#data.isLove}}
+            <i class="fa-solid fa-heart my_fake_like my_mr_sm_1" id="my-heart"
                 onclick="postLikeClick('{{data.post.id}}')"></i>
             by <b>{{data.post.user.username}}</b> <span class="my_text_body_sm">{{data.post.formatCreateDate}}</span>
+       {{/data.isLove}}
+
+       {{^data.isLove}}
+       <i class="far fa-heart my_fake_un_like my_mr_sm_1" id="heart-{{data.post.id}}"
+       onclick="postLikeClick('{{data.post.id}}')"></i>
+             by <b>{{data.post.user.username}}</b> <span class="my_text_body_sm">{{data.post.formatCreateDate}}</span>
+       {{/data.isLove}}
         </div>
     </div>
 
     {{#data.isPageOwner}}
+    <div class="my_mt_md_1">
         <a class="btn btn-outline-success" href="#">수정</a>
         <button id="btn-delete"class="btn btn-outline-danger">삭제</button>
     </div>

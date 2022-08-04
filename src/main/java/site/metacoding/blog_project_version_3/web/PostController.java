@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.blog_project_version_3.config.auth.LoginUser;
 import site.metacoding.blog_project_version_3.domain.category.Category;
-import site.metacoding.blog_project_version_3.domain.post.Post;
 import site.metacoding.blog_project_version_3.domain.user.User;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.service.PostService;
+import site.metacoding.blog_project_version_3.web.dto.love.LoveRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostDetailRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostRespDto;
 import site.metacoding.blog_project_version_3.web.dto.post.PostWriteReqDto;
@@ -87,4 +87,15 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/s/api/post/{postId}/love")
+    public ResponseEntity<?> love(@PathVariable Integer postId, @AuthenticationPrincipal LoginUser loginUser) {
+        LoveRespDto dto = postService.좋아요(postId, loginUser.getUser());
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/s/api/post/{postId}/love/{loveId}")
+    public ResponseEntity<?> unLove(@PathVariable Integer loveId, @AuthenticationPrincipal LoginUser loginUser) {
+        postService.좋아요취소(loveId, loginUser.getUser());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
