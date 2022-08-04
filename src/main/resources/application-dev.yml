@@ -49,3 +49,8 @@ spring:
 
 file:
   path: C:/Users/hwang/upload/
+
+logging:
+  level:
+    '[org.springframework.web]': DEBUG
+    '[org.hibernate]': DEBUG
