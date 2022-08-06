@@ -1,6 +1,5 @@
 package site.metacoding.blog_project_version_3.service;
 
-import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +34,7 @@ public class UserService {
     private String uploadFolder;
 
     @Transactional
-    public void 회원가입(User user) {
+    public User 회원가입(User user) {
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
@@ -46,6 +45,8 @@ public class UserService {
         visit.setTotalCount(0L);
         visit.setUser(userEntity);
         visitRepository.save(visit);
+
+        return userEntity;
     }
 
     public boolean 유저네임중복체크(String username) {

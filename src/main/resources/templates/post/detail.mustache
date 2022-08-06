@@ -24,7 +24,7 @@
        {{/data.isLove}}
 
        {{^data.isLove}}
-       <i class="far fa-heart my_fake_un_like my_mr_sm_1" id="heart-{{data.post.id}}"
+       <i class="far fa-heart my_fake_un_like my_mr_sm_1" id="my-heart"
        onclick="postLikeClick('{{data.post.id}}')"></i>
              by <b>{{data.post.user.username}}</b> <span class="my_text_body_sm">{{data.post.formatCreateDate}}</span>
        {{/data.isLove}}
@@ -40,6 +40,7 @@
     <br />
 
         <div class="my_livere">
+
 <!-- 라이브리 시티 설치 코드 -->
 <div id="lv-container" data-id="city" data-uid="MTAyMC81NjI4MS8zMjc0NA==">
 <script type="text/javascript">
