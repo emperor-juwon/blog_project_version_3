@@ -3,6 +3,7 @@ package site.metacoding.blog_project_version_3.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -37,15 +38,58 @@ public class UserRepositoryTest {
         assertEquals(username, userEntity.getUsername());
     }
 
+    @Test
+    @Order(2)
     public void findByUsername_테스트() {
+        // given
+        String username = "juwon";
 
+        // when
+        Optional<User> userOp = userRepository.findByUsername(username);
+
+        // then
+        if (userOp.isPresent()) {
+            User user = userOp.get();
+
+            assertEquals(username, user.getUsername());
+        }
     }
 
+    @Test
+    @Order(3)
     public void findById_테스트() {
 
+        // given
+        Integer id = 1;
+
+        // when
+        Optional<User> userOp = userRepository.findById(id);
+
+        if (userOp.isPresent()) {
+            User userEntity = userOp.get();
+
+            assertEquals(id, userEntity.getId());
+        }
     }
 
+    @Test
+    @Order(4)
     public void findByUsernameAndEmail_테스트() {
+
+        // given
+        String username = "juwon";
+        String email = "juwon@nate.com";
+
+        // when
+        Optional<User> userOp = userRepository.findByUsernameAndEmail(username, email);
+
+        // then
+        if (userOp.isPresent()) {
+            User userEntity = userOp.get();
+
+            assertEquals(username, userEntity.getUsername());
+            assertEquals(email, userEntity.getEmail());
+        }
 
     }
 }
