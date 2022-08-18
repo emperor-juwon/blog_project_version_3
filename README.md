@@ -1,7 +1,7 @@
 # 📝나만의 블로그 만들기 - Version 3
 ##  **💡Spring Boot를 활용하여 나만의 블로그 만들기**
 
-- **프로젝트 기간 : 2022.07.06 ~ 2022.08.12**
+- **프로젝트 기간 : 2022.07.06 ~ 2022.08.21**
     
 <br/>
 
@@ -85,19 +85,19 @@
   
 ## 💡블로그 ver.3 에서 추가된 기능 
 
-### 🛠 **** 파일업로드 기능****
+### 🛠 ** 파일업로드 기능**
 | 프로필사진 업로드 | 게시판 사진 업로드 |
 |------|------|
 |![profileupload](https://user-images.githubusercontent.com/104547351/185288784-8879f49c-1f6f-4726-a855-03789480374d.gif)|![upload](https://user-images.githubusercontent.com/104547351/185288798-e82e7f28-66d8-4a18-9013-e7dde3bdb164.gif)|
 <br/>
 
-### 🛠 **** 좋아요 기능****
+### 🛠 ** 좋아요 기능**
 | 좋아요 | 좋아요 취소 |
 |------|------|
 |![like](https://user-images.githubusercontent.com/104547351/185288802-3179e8b5-4a04-40a9-a69b-7b4bcd756af9.gif)|![unlike](https://user-images.githubusercontent.com/104547351/185288796-d52acf8a-c6bf-4bf8-a392-c118a9383302.gif)|
 <br/>
 
-### 🛠 **** 방문자 수 count 기능****
+### 🛠 ** 방문자 수 count 기능**
 | 방문자수 count | 방문자수 count |
 |------|------|
 |![visitcount](https://user-images.githubusercontent.com/104547351/185288800-0918fe00-e358-4177-8c48-5eff85959e42.gif)|![visitcount](https://user-images.githubusercontent.com/104547351/185288800-0918fe00-e358-4177-8c48-5eff85959e42.gif)|
@@ -107,7 +107,7 @@
  [<img width="1268" alt="Screenshot_15" src="https://user-images.githubusercontent.com/104547351/184179515-2269f1f9-61af-4c1e-a9eb-796294c01b3f.png">](https://youtu.be/7IsoCG80q2o)
 
  <br>
- 
+
 ## 💡ERD
 
 
