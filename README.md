@@ -10,8 +10,8 @@
 - 블로그 version2 에서 하지 못했던 추가 기능 구현 (파일업로드 기능, 좋아요기능 등)
 - spring security 기능 사용
 - junit 이용한 테스트 코드 작성 
-- (블로그 ver1 깃허브)[https://github.com/emperor-juwon/blog_project_version_1]
-- (블로그 ver2 깃허브)[https://github.com/emperor-juwon/blog_project_version_2]
+- [블로그 ver1 깃허브](https://github.com/emperor-juwon/blog_project_version_1)
+- [블로그 ver2 깃허브](https://github.com/emperor-juwon/blog_project_version_2)
 
 <br/>
 
@@ -86,8 +86,6 @@
 ## 💡블로그 ver.3 에서 추가된 기능 
 
 ### 🛠 **** 파일업로드 기능****
-- 
-
 | 프로필사진 업로드 | 게시판 사진 업로드 |
 |------|------|
 |![profileupload](https://user-images.githubusercontent.com/104547351/185288784-8879f49c-1f6f-4726-a855-03789480374d.gif)|![upload](https://user-images.githubusercontent.com/104547351/185288798-e82e7f28-66d8-4a18-9013-e7dde3bdb164.gif)|
@@ -106,7 +104,10 @@
 <br/>
 
 ## 💡구현결과(영상 링크)
-- [<img width="1268" alt="Screenshot_15" src="https://user-images.githubusercontent.com/104547351/184179515-2269f1f9-61af-4c1e-a9eb-796294c01b3f.png">](https://youtu.be/7IsoCG80q2o)
+ [<img width="1268" alt="Screenshot_15" src="https://user-images.githubusercontent.com/104547351/184179515-2269f1f9-61af-4c1e-a9eb-796294c01b3f.png">](https://youtu.be/7IsoCG80q2o)
+
+ <br>
+ 
 ## 💡ERD
 
 
