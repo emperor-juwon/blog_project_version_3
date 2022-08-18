@@ -80,10 +80,10 @@ public class PostController {
         return "/post/detail";
     }
 
-    @DeleteMapping("/s/api/post/{id}")
-    public ResponseEntity<?> postDelete(@PathVariable Integer id, @AuthenticationPrincipal LoginUser loginUser) {
+    @DeleteMapping("/s/api/post/{postId}")
+    public ResponseEntity<?> postDelete(@PathVariable Integer postId, @AuthenticationPrincipal LoginUser loginUser) {
         User principal = loginUser.getUser();
-        postService.게시글삭제(id, principal);
+        postService.게시글삭제(postId, principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
