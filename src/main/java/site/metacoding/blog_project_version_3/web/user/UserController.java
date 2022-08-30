@@ -19,6 +19,7 @@ import site.metacoding.blog_project_version_3.config.auth.LoginUser;
 import site.metacoding.blog_project_version_3.domain.user.User;
 import site.metacoding.blog_project_version_3.handler.ex.CustomException;
 import site.metacoding.blog_project_version_3.service.UserService;
+import site.metacoding.blog_project_version_3.util.UtilSysout;
 import site.metacoding.blog_project_version_3.util.UtilValid;
 import site.metacoding.blog_project_version_3.web.dto.user.JoinReqDto;
 import site.metacoding.blog_project_version_3.web.dto.user.PasswordResetReqDto;
@@ -30,6 +31,7 @@ public class UserController {
 
     private final UserService userService;
     private final HttpSession session;
+    private static final String TAG = "UserController: ";
 
     @GetMapping("/login-form")
     public String loginForm() {
